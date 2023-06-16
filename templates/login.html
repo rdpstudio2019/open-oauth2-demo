@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,viewport-fit=cover" />
+    <title>demo</title>
+    <link rel="icon" type="image/png" href="https://webstatic.rdpstudio.top/global/branding/static/fangtang/favicon.png">
+    <link rel="apple-touch-icon" type="image/png" href="https://webstatic.rdpstudio.top/global/branding/static/fangtang/favicon.png">
+    <script src="https://webstatic.rdpstudio.top/cn/open/foauth2sdk/index.umd.js"></script> <!-- 引入SDK -->
+</head>
+<style>
+    body {
+        background-color: #eaeaea;
+    }
+</style>
+<body>
+    <button onclick="login();">登录</button>
+    <script>
+        window.sdk = new FOAuth2Sdk.FOAuth2InPage( // 创建InPageSDK实例，无缝授权同意后将跳转到回调地址
+            "{{ client_id }}", // client_id
+            "https://127.0.0.1:5001/callback", // 回调地址
+            "user", // scope
+            "some_state", // state
+            true // 是否初始化 OneTap 弹窗
+            );
+        function login() {
+            if (window.sdk.logged_in) { // 获取用户的登录状态，如果用户没有登录则无法进行无缝授权，必须跳转授权
+                window.sdk.auth(); // 打开登录弹窗
+            } else {
+                location.href = "/login"; // 无法进行无缝授权，进行跳转授权
+            }
+        }
+    </script>
+</body>
+</html>
